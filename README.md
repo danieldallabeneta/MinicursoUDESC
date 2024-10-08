@@ -1,2 +1,2 @@
-# MinicursoUdesc
-Minicurso Programação Orientada a Objeto
+# MinicursoUDESC
+Minicurso de Programação Orientada a Objeto
