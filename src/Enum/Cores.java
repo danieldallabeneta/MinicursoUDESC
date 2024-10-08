@@ -1,4 +1,4 @@
-package minicurso;
+package Enum;
 
 /**
  *

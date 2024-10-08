@@ -1,5 +1,6 @@
 package minicurso;
 
+import Enum.Cores;
 import imageOpener.ImageOpener;
 
 public class Minicurso {
