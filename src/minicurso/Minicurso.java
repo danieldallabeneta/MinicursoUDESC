@@ -7,8 +7,8 @@ public class Minicurso {
 
     public static void main(String[] args) {
         
-        Veiculo carro = new Carro(4, "Corsa", "MIC4582", Cores.VERMELHO.getNumero(), "Chevrolet", 1997);
-        Veiculo carro1 = new Carro(4, "Gol", "GOL2010", Cores.BRANCO.getNumero(), "Volkswagen", 2010);
+        Veiculo carro = new Veiculo(4, "Corsa", "MIC4582", Cores.VERMELHO.getNumero(), "Chevrolet", 1997);
+        Veiculo carro1 = new Veiculo(4, "Gol", "GOL2010", Cores.BRANCO.getNumero(), "Volkswagen", 2010);
         System.out.println(carro.toString());
         System.out.println(carro1.toString());
         System.out.println(carro.ligar());
@@ -38,7 +38,7 @@ public class Minicurso {
     
 }
 
-abstract class Veiculo {
+class Veiculo {
     
     private String modelo;
     private String placa;
@@ -47,8 +47,10 @@ abstract class Veiculo {
     private int ano;
     private int velocidade;
     private boolean ligado;
+    private int portas;
 
-    public Veiculo(String modelo, String placa, int cor, String marca, int ano) {
+    public Veiculo(int portas, String modelo, String placa, int cor, String marca, int ano) {
+        this.portas = portas;
         this.modelo = modelo;
         this.placa = placa;
         this.cor = cor;
@@ -121,29 +123,7 @@ abstract class Veiculo {
     public void diminuirVelocidade(){
         this.velocidade = this.velocidade - 20;
     }
-    
-    protected abstract void exibir();
-    protected abstract String ligar();
-    protected abstract String acelerar();
-    protected abstract String freiar();
-    protected abstract String buzinar();
-    protected abstract String desligar();
-    
-    @Override
-    public String toString() {
-        return "Marca: "+ getMarca()+", Modelo: "+getModelo()+" Placa: "+getPlaca()+" Cor:"+getCor()+ " Ano: "+getAno();
-    }    
-}
-
-class Carro extends Veiculo {
-    
-    private int portas;
-
-    public Carro(int portas, String modelo, String placa, int cor, String marca, int ano) {
-        super(modelo, placa, cor, marca, ano);
-        this.portas = portas;
-    }
-    
+        
     public int getPortas() {
         return portas;
     }
@@ -151,9 +131,60 @@ class Carro extends Veiculo {
     public void setPortas(int portas) {
         this.portas = portas;
     }
+    
+    public void exibir() {
+        switch (this.getCor()) {
+            case 4 -> {
+                if(this.getPortas() == 2){
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("amarelo 2.jpg");
+                    imageOpener.setVisible(true); 
+                } else {
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("amarelo 4.jpg");
+                    imageOpener.setVisible(true); 
+                }
+            }
+            case 1 -> {
+                if(this.getPortas() == 2){
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("branco 2.jpg");
+                    imageOpener.setVisible(true); 
+                } else {
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("branco 4.jpg");
+                    imageOpener.setVisible(true); 
+                }
+            }
+            case 2 -> {
+                if(this.getPortas() == 2){
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("vermelho 2.jpeg");
+                    imageOpener.setVisible(true); 
+                } else {
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("vermelho 4.jpg");
+                    imageOpener.setVisible(true); 
+                }
+            }
+            case 3 -> {
+                if(this.getPortas() == 2){
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("preto 2.jpg");
+                    imageOpener.setVisible(true); 
+                } else {
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("preto 4.jpg");
+                    imageOpener.setVisible(true); 
+                }
+            }
+            case 5 -> {
+                if(this.getPortas() == 2){
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("cinza 2.jpg");
+                    imageOpener.setVisible(true); 
+                } else {
+                    ImageOpener imageOpener = new imageOpener.ImageOpener("cinza 4.jpg");
+                    imageOpener.setVisible(true); 
+                }
+            }      
+                
+            default -> throw new AssertionError();
+        }
+    }
 
-    @Override
-    protected String acelerar() {
+    public String acelerar() {
         if (this.getVelocidade() < 120){
             this.aumentarVelocidade();
             return "O carro "+getModelo()+" placa "+getPlaca()+" acelerou e está à "+getVelocidade()+"Km/h";
@@ -162,8 +193,7 @@ class Carro extends Veiculo {
         }
     }
 
-    @Override
-    protected String freiar() {
+    public String freiar() {
         if(this.getVelocidade() > 0){
             this.diminuirVelocidade();
             return "O carro "+getModelo()+" placa "+getPlaca()+" freiou e está à "+getVelocidade()+"Km/h";
@@ -172,13 +202,11 @@ class Carro extends Veiculo {
         }
     }
 
-    @Override
-    protected String buzinar() {
+    public String buzinar() {
         return "O carro "+getModelo()+" placa "+getPlaca()+" buzinou (Bi Bi...)";
     }
 
-    @Override
-    protected String ligar() {
+    public String ligar() {
         if(this.isLigado()){
             return "O carro "+getModelo()+" placa "+getPlaca()+" Já está ligado.";
         }
@@ -186,8 +214,7 @@ class Carro extends Veiculo {
         return "O carro "+getModelo()+" placa "+getPlaca()+" ligou.";
     }
 
-    @Override
-    protected String desligar() {
+    public String desligar() {
         if(!this.isLigado() && this.getVelocidade() <= 0){
             return "O carro "+getModelo()+" placa "+getPlaca()+" Já está desligado.";
         }
@@ -198,64 +225,10 @@ class Carro extends Veiculo {
         this.setLigado(false);
         return "O carro "+getModelo()+" placa "+getPlaca()+" desligou";
     }
-
-    @Override
-    protected void exibir() {
-        switch (this.getCor()) {
-            case 4:
-                if(this.getPortas() == 2){
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("amarelo 2.jpg");
-                    imageOpener.setVisible(true); 
-                } else {
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("amarelo 4.jpg");
-                    imageOpener.setVisible(true); 
-                }
-                break;
-            case 1:
-                if(this.getPortas() == 2){
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("branco 2.jpg");
-                    imageOpener.setVisible(true); 
-                } else {
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("branco 4.jpg");
-                    imageOpener.setVisible(true); 
-                }
-                break;  
-            case 2:
-                if(this.getPortas() == 2){
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("vermelho 2.jpeg");
-                    imageOpener.setVisible(true); 
-                } else {
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("vermelho 4.jpg");
-                    imageOpener.setVisible(true); 
-                }
-                break;  
-            case 3:
-                if(this.getPortas() == 2){
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("preto 2.jpg");
-                    imageOpener.setVisible(true); 
-                } else {
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("preto 4.jpg");
-                    imageOpener.setVisible(true); 
-                }
-                break;     
-            case 5:
-                if(this.getPortas() == 2){
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("cinza 2.jpg");
-                    imageOpener.setVisible(true); 
-                } else {
-                    ImageOpener imageOpener = new imageOpener.ImageOpener("cinza 4.jpg");
-                    imageOpener.setVisible(true); 
-                }
-                break;      
-                
-            default:
-                throw new AssertionError();
-        }
-    }
-
+        
     @Override
     public String toString() {
-        return super.toString() + " Portas: "+getPortas(); 
-    }   
+        return "Marca: "+ getMarca()+", Modelo: "+getModelo()+" Placa: "+getPlaca()+" Cor:"+getCor()+ " Ano: "+getAno()+ " Portas: "+getPortas();
+    }  
     
 }
